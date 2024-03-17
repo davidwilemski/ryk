@@ -1,0 +1,12 @@
+[package]
+name = "ryk"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+homepage = "https://github.com/davidwilemski/ryk"
+repository = "https://github.com/davidwilemski/ryk"
+
+[dependencies]
+anyhow = "1.0.80"
+clap = { version = "4.5.2", features = ["derive"] }
+rhai = { version = "1.17", features = ["metadata", "sync"] }

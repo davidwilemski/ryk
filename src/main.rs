@@ -35,7 +35,9 @@ fn main() -> anyhow::Result<()> {
     let (stdout_tx, stdout_rx) = std::sync::mpsc::channel();
 
     let mut engine = Engine::new();
-    engine.register_fn("p", move |x: rhai::Dynamic| { stdout_tx.send(x).unwrap(); });
+    // Unfortunate allocation on print call since we just receive a &str; Need to determine whether
+    // the allocation or writing to stdout inline is less overhead.
+    engine.on_print(move |x: &str| stdout_tx.send(x.into()).unwrap() );
     let engine = engine;
 
     let before_ast = if let Some(b) = args.before {
@@ -77,7 +79,7 @@ fn read(sender: std::sync::mpsc::SyncSender<String>) -> anyhow::Result<()> {
     Ok(())
 }
 
-fn write(rx: std::sync::mpsc::Receiver<rhai::Dynamic>) -> anyhow::Result<()> {
+fn write(rx: std::sync::mpsc::Receiver<String>) -> anyhow::Result<()> {
     let mut stdout = std::io::stdout().lock();
     while let Ok(line) = rx.recv() {
         writeln!(&mut stdout, "{line}")?;

@@ -33,7 +33,7 @@ Options:
 Parse input as integer and add a value, printing each line:
 
 ```
-$ seq 10 | ryk 'p(parse_int(line) + 100)'
+$ seq 10 | ryk 'print(parse_int(line) + 100)'
 101
 102
 103
@@ -57,6 +57,6 @@ $ cat lines.jsonl
 {"a": 4}
 {"a": 5}
 
-$ cat lines.jsonl | ryk -b 'let s = 0' -a 'p(s)' 's += parse_json(line)["a"]'
+$ cat lines.jsonl | ryk -b 'let s = 0' -a 'print(s)' 's += parse_json(line)["a"]'
 15
 ```

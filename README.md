@@ -57,6 +57,6 @@ $ cat lines.jsonl
 {"a": 4}
 {"a": 5}
 
-$ cat lines.jsonl | target/debug/ryk -b 'let s = 0' -a 'p(s)' 's += parse_json(line)["a"]'
+$ cat lines.jsonl | ryk -b 'let s = 0' -a 'p(s)' 's += parse_json(line)["a"]'
 15
 ```
